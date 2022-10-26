@@ -9,4 +9,4 @@ bind = [1, 2];
 B = A(:,bind);
 Binv = inv(B);
 
-D = simplex_iter(A,b,c,m,n,x,bind,Binv)
+D = simplex_iter2(A,b,c,m,n,x,bind,Binv)
