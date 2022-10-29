@@ -1,4 +1,4 @@
-function [x, bind, Binv, ind, v] = simplex(A,b,c,m,n,x,bind,Binv)
+function [ind, v] = simplex(A,b,c,m,n,x,bind,Binv)
   if (rank(A) < m)
     error("Não existem %d colunas linearmente independentes na matriz A", m);
   endif
