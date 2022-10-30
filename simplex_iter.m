@@ -12,6 +12,8 @@ function [x, bind, Binv, ind, v] = simplex_iter(A,b,c,m,n,x,bind,Binv)
   cB = c(bind);
   cbarra = c' - cB' * Binv * A;
 
+  print1(c, x, bind, nind, xB, cbarra)
+
   # se não houver cbarra_j < 0, estamos em ponto ótimo e paramos
   if (! any(cbarra + precision < 0))
     print_optimal_solution(x, c);
@@ -19,8 +21,6 @@ function [x, bind, Binv, ind, v] = simplex_iter(A,b,c,m,n,x,bind,Binv)
     ind = 0;
     return;
   endif
-
-  print1(c, x, bind, nind, xB, cbarra)
 
   # se houver, procuramos j, tq cbarra_j seja o primeiro negativo
   cont = 1;
@@ -37,8 +37,8 @@ function [x, bind, Binv, ind, v] = simplex_iter(A,b,c,m,n,x,bind,Binv)
 
   # se nenhuma componente de u for positiva, então theta = inf e o custo ótimo é -inf. paramos
   if (! any(u > 0))
-    printf("O custo ótimo é -inf!\n");
-    v = u
+    print_unbounded_direction(u,bind)
+    v = u;
     ind = -1;
     return;
   endif
@@ -51,7 +51,7 @@ function [x, bind, Binv, ind, v] = simplex_iter(A,b,c,m,n,x,bind,Binv)
     if (u(cont) < 0 + precision)
       continue;
     endif
-    r = xB(cont)/u(cont)
+    r = xB(cont)/u(cont);
     if (r < min)
       min = r;
       l = cont;
